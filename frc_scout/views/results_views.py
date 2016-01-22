@@ -56,11 +56,7 @@ def view_match_data(request):
             matches.filter(**params.get("filter"))
         if params.get("order"):
             matches.order_by(params.get("order"))
-        results = []
-        for x in matches:
-            events = Event.objects.filter(match=x)
-            x.events = [y for y in events]
-            results.append(x)
+        results = [x for x in matches]
         return JsonResponse(results, safe=False)
 def view_pit_data(request):
     if not request.user.is_authenticated():

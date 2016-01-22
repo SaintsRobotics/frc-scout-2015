@@ -65,6 +65,8 @@ class Match(models.Model):
     auto_start_x = models.DecimalField(default=0, max_digits=20, decimal_places=16)
     auto_start_y = models.DecimalField(default=0, max_digits=20, decimal_places=16)
     
+    events = models.TextField()
+    
     high_goals = models.IntegerField(max_length=3, default=0)
     low_goals = models.IntegerField(max_length=3, default=0)
     blocks = models.IntegerField(max_length=3, default=0)
@@ -74,26 +76,6 @@ class Match(models.Model):
         return str("Team: %i | Match: %i | Location: %s" % (self.team_number, self.match_number, self.location.name))
 
 
-class Event(models.Model):
-    match = models.ForeignKey(Match)
-    ev_num = models.IntegerField(max_length=6)
-    eventTypes = (
-        (0,"LowGoal"),
-        (1,"HighGoal"),
-        (2,"Crossing"),
-        (3,"PickupBall"),
-        (4,"BlockedShot"),
-        (5,"BlockedCrossing")
-        )
-    time = models.FloatField()
-    endTime = models.FloatField(null=True)
-    evType = models.IntegerField(max_length=1,
-                                choices=eventTypes,
-                                default=0)
-    evId = models.IntegerField(max_length=1, default = 0)
-    x = models.FloatField(null=True)
-    y = models.FloatField(null=True)
-    target = models.IntegerField(max_length=1,default=0, null=True)
 class MatchPrivateComments(models.Model):
     class Meta:
         verbose_name_plural = "Match private comments"
