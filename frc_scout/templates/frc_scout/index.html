@@ -83,20 +83,8 @@
                 </div>
                 <div class="panel-body">
                     <a class="btn btn-primary btn-super btn-fill" href="{% url 'frc_scout:tableau_info' %}">Integrate with Tableau</a>
-                    <a class="btn btn-primary btn-super btn-fill" href="{% url 'frc_scout:database_instructions' %}">connect to database</a>
-                    <a class="btn btn-primary btn-super btn-fill" href="{% url "frc_scout:view_team_profile" %}">Team Profile</a>
-                    <form class="btn-fill" style="display: inline;" onsubmit="window.location = '{% url 'frc_scout:view_team_profile' %}' + $('#team_number').val(); return false;">
-                        <div style="display: inline-table;">
-                            <div style="display: table-row;">
-                                <div style="display: table-cell;">
-                                    <input type="number" class="form-control" style="max-width: 160px; margin: 10px 10px; height: 50px; font-size: 18px;" placeholder="Find Team Profile" id="team_number" required>
-                                </div>
-                                <div style="display: table-cell;">
-                                    <button class="btn btn-primary btn-super">Go</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                    <a class="btn btn-primary btn-super btn-fill" href="{% url "frc_scout:heatmap" %}">Look At Data</a>
+                    <button class="btn btn-primary btn-super btn-fill" onclick = "submitData()">Submit Pending Matches</button>
                 </div>
             </div>
         </div>
@@ -140,76 +128,73 @@
                 localStorage.removeItem('eventSchedule');
                 localStorage.removeItem('teamsAtEvent');
 
-                $.getJSON("https://www.thebluealliance.com/api/v2/event/2015{{ event_code }}/matches?X-TBA-App-Id=frc4030:frcscout.com:v1", function(data) {
+                $.getJSON("https://www.thebluealliance.com/api/v2/event/2016{{ event_code }}/matches?X-TBA-App-Id=frc1899:frcscout.com:v2", function(data) {
                     localStorage.eventSchedule = JSON.stringify(data);
                 });
 
-                $.getJSON("https://www.thebluealliance.com/api/v2/event/2015{{ event_code }}/teams?X-TBA-App-Id=frc4030:frcscout.com:v1", function(data) {
+                $.getJSON("https://www.thebluealliance.com/api/v2/event/2016{{ event_code }}/teams?X-TBA-App-Id=frc1899:frcscout.com:v2", function(data) {
                     localStorage.teamsAtEvent = JSON.stringify(data);
                 });
             });
 
-            function submitData() {
-                var pendingMatches = getPendingMatches();
-
-                $("#online_message").hide();
-                $("#in_progress_message").show();
-                $("#submit_pending").button('loading');
-
-                $.ajax({
-                    url: '/scouting/match/submit/',
-                    method: "POST",
+            var submitting = false;
+            var popData;
+            function submitData(){
+                attemptMatchSubmission();
+                attemptPitSubmission();
+            }
+function attemptMatchSubmission(){
+    if(localStorage.getItem("matches") && !submitting){
+        submitting = true;
+        var item = $.ajax({
+            url: '/scouting/match/submit/',
+            method: "POST",
+            data: {
+                csrfmiddlewaretoken: $.cookie('csrftoken'),
+                data: localStorage.getItem("matches")
+            },
+            statusCode:{
+                500:function(){
+                    alert("Internal Server error");
+                },
+                400:function(){
+                    alert("Your data had an issue");
+                },
+                403:function(){
+                    alert("You're forbidden");
+                }
+            },
+            success: function(){
+                localStorage.setItem("matches", null);
+                alert("You did it!");
+                submitting = false;
+            }
+        });
+    }
+}
+function attemptPitSubmission(){
+    if(localStorage.getItem("pitscout")){
+        popData = localStorage.getItem("pitscout");
+        data = JSON.stringify(localStorage.getItem("pitscout"));
+        for(var pit of data){
+        $.ajax({
+                    url: '/scouting/pit/submit/',
+                    type: "POST",
                     data: {
                         csrfmiddlewaretoken: $.cookie('csrftoken'),
-                        data: JSON.stringify(pendingMatches)
+                        data: JSON.stringify(pit.formData),
+                        image_data: JSON.stringify(pit.imageData)
                     },
                     success: function() {
-                        clearPendingMatches();
-                        $("#submit_pending").html("<span class='glyphicon glyphicon-saved'></span>&nbsp; Data submitted successfully.");
-
-                        window.setTimeout(function() {
-                            $("#submit_pending").fadeOut(500);
-                        }, 2000);
-
+                        alert("Submitted!");
                     },
-                    error: function() {
-                        $("#submit_pending").button('reset');
-                        console.log("Data submission failed -- please try again.");
+                    error:function(response){
+                        alert("Something went wrong!");
+                        localStorage.setItem("pitscout", popData);
                     }
-                });
-            }
-
-            function getPendingMatches() {
-                var pendingMatches = [];
-
-                for (var i = 0; ; i++) {
-                    if (localStorage["match" + i.toString()]) {
-                        var match = $.parseJSON(localStorage["match" + i.toString()]);
-
-                        if(match.postmatch) {
-                            if(match.postmatch.scouting_complete === true) {
-                                pendingMatches.push(match);
-                            }
-                        }
-                    }
-                    else {
-                        break;
-                    }
-                }
-
-                return pendingMatches;
-            }
-
-            function clearPendingMatches() {
-                for (var i = 0; ; i++) {
-                    if (localStorage["match" + i.toString()]) {
-                        localStorage.removeItem("match" + i.toString());
-                    }
-                    else {
-                        break;
-                    }
-                }
-            }
+                })}
+    }
+}
 
         </script>
     {% endcompress %}

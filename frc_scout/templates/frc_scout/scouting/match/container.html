@@ -47,41 +47,41 @@
 
     <!-- PREMATCH -->
     <div class="container-fluid stage" style="display: none;" id="prematch">
-        <div class="row">
-            <div class="col-md-12">
-                <h2>Pre-Match<span class="team-number"></span></h2>
+        <div class="row" id="prematchtitlerow">
+            <div class="col-md-12" id="prematchtitlecol">
+                <h2>Pre-Match<span class="team-number" id="prematchteamnms"></span></h2>
             </div>
         </div>
-        <div class="row">
-            <label for="match_number" style="padding-top:10px; font-weight: bold;" class="col-sm-4 control-label input-x-lg">Match Number:</label>
-            <div class="col-sm-8">
+        <div class="row" id="matchnumberrow">
+            <label for="match_number" id="matchnum" class="col-sm-4 control-label input-x-lg">Match Number:</label>
+            <div class="col-sm-8" id="matchcol">
                 <input id="match_number" class="form-control input-x-lg background-white" placeholder="Match" type='number'>
             </div>
         </div>
         <br>
-        <div class="row">
-            <label for="team_number" style="padding-top: 10px; font-weight: bold;" class="col-sm-4 control-label input-x-lg">Team Number:</label>
-            <div class="col-sm-8">
+        <div class="row" id="teamrow">
+            <label id="teamnum" for="team_number" class="col-sm-4 control-label input-x-lg">Team Number:</label>
+            <div class="col-sm-8" id="teamcol">
                 <div id="type_team_number">
                     <input id="team_number" class="form-control input-x-lg background-white" placeholder="Team" type="number">
                 </div>
 
                 <div id="select_team_number">
-                    <select id="select_team_number_select" style="padding-top: 10px;" class="form-control input-x-lg alliance-toggle background-white">
-                        <option value="">Select a team</option>
+                    <select id="select_team_number_select" class="form-control input-x-lg alliance-toggle background-white">
+                        <option value="" id="selectteam">Select a team</option>
                     </select>
                 </div>
             </div>
         </div>
-        <div class="row" id="select_alliance_color">
+        <div class="row" id="select_alliance_color row">
             <br>
-            <div class="col-md-12">
-                <div class="btn-group max-width" data-toggle="buttons">
-                    <label class="btn btn-lg btn-danger alliance-toggle" style="width: 50%;" id="red_alliance">
+            <div class="col-md-12" id="select_alliance_colorcol">
+                <div class="btn-group max-width" data-toggle="buttons" id="redbutton">
+                    <label class="btn btn-lg btn-danger alliance-toggle" id="red_alliance">
                         <input type="radio">
                         Red
                     </label>
-                    <label class="btn btn-lg btn-primary alliance-toggle" style="width: 50%;" id="blue_alliance">
+                    <label class="btn btn-lg btn-primary alliance-toggle" id="blue_alliance">
                         <input type="radio">
                         Blue
                     </label>
@@ -90,55 +90,55 @@
         </div>
         </br>
         <div class="row" id="defenses_1">
-            <label for="select_team_defenses_1" style="padding-top: 10px; font-weight: bold;" class="col-sm-4 control-label input-x-lg">Enemy Defense 1:</label>
-            <div class="col-sm-8">
+            <label for="select_team_defenses_1" id="deflabel1" class="col-sm-4 control-label input-x-lg">Enemy Defense 1:</label>
+            <div class="col-sm-8" id="select-teams-col">
                 <div id="select_team_defenses">
-                    <select id="select_team_defenses_1" style="padding-top: 10px;" class="form-control input-x-lg background-white select-defense">
-                        <option value="">Select a Defense</option>
-                        <option value="def_port">Portcullis</option>
-                        <option value="def_moat">Moat</option>
-                        <option value="def_draw">Drawbridge</option>
-                        <option value="def_terr">Rough Terrain</option>
-                        <option value="def_rock">Rock Wall</option>
-                        <option value="def_ramp">Ramparts</option>
-                        <option value="def_sp">Sally Port</option>
-                        <option value="def_cf">Cheval de Frise</option>
+                    <select id="select_team_defenses_1" style="" class="form-control input-x-lg background-white select-defense">
+                        <option value="" id="defselect">Select a Defense</option>
+                        <option value="def_port" id="portselect">Portcullis</option>
+                        <option value="def_moat" id="moatselect">Moat</option>
+                        <option value="def_draw" id="drawselect">Drawbridge</option>
+                        <option value="def_terr" id="roughselect">Rough Terrain</option>
+                        <option value="def_rock" id="rockselect">Rock Wall</option>
+                        <option value="def_ramp" id="rampselect">Ramparts</option>
+                        <option value="def_sp" id="sallyselect">Sally Port</option>
+                        <option value="def_cf" id="chevalselect">Cheval de Frise</option>
                     </select>
                 </div>
             </div>
         </div>
         <div class="row" id="defenses_2">
-            <label for="select_team_defenses_2" style="padding-top: 10px; font-weight: bold;" class="col-sm-4 control-label input-x-lg">Enemy Defense 2:</label>
-            <div class="col-sm-8">
+            <label for="select_team_defenses_2" id="deflabel2" style="" class="col-sm-4 control-label input-x-lg">Enemy Defense 2:</label>
+            <div class="col-sm-8" id="select-teams-col2">
                 <div id="select_team_defenses">
                     <select id="select_team_defenses_2" style="padding-top: 10px;" class="form-control input-x-lg background-white select-defense">
-                        <option value="">Select a Defense</option>
-                        <option value="def_port">Portcullis</option>
-                        <option value="def_moat">Moat</option>
-                        <option value="def_draw">Drawbridge</option>
-                        <option value="def_terr">Rough Terrain</option>
-                        <option value="def_rock">Rock Wall</option>
-                        <option value="def_ramp">Ramparts</option>
-                        <option value="def_sp">Sally Port</option>
-                        <option value="def_cf">Cheval de Frise</option>
+                        <option value="" id="defselect2">Select a Defense</option>
+                       <option value="def_port" id="portselect2">Portcullis</option>
+                        <option value="def_moat" id="moatselect2">Moat</option>
+                        <option value="def_draw" id="drawselect2">Drawbridge</option>
+                        <option value="def_terr" id="roughselect2">Rough Terrain</option>
+                        <option value="def_rock" id="rockselect2">Rock Wall</option>
+                        <option value="def_ramp" id="rampselect2">Ramparts</option>
+                        <option value="def_sp" id="sallyselect2">Sally Port</option>
+                        <option value="def_cf" id="chevalselect2">Cheval de Frise</option>
                     </select>
                 </div>
             </div>
         </div>
         <div class="row" id="defenses_3">
-            <label for="select_team_defenses_3" style="padding-top: 10px; font-weight: bold;" class="col-sm-4 control-label input-x-lg">Enemy Defense 3:</label>
-            <div class="col-sm-8">
+            <label for="select_team_defenses_3" id="deflabel3" class="col-sm-4 control-label input-x-lg">Enemy Defense 3:</label>
+            <div class="col-sm-8" id="select-teams-col3">
                 <div id="select_team_defenses">
                     <select id="select_team_defenses_3" style="padding-top: 10px;" class="form-control input-x-lg background-white select-defense">
-                        <option value="">Select a Defense</option>
-                        <option value="def_port">Portcullis</option>
-                        <option value="def_moat">Moat</option>
-                        <option value="def_draw">Drawbridge</option>
-                        <option value="def_terr">Rough Terrain</option>
-                        <option value="def_rock">Rock Wall</option>
-                        <option value="def_ramp">Ramparts</option>
-                        <option value="def_sp">Sally Port</option>
-                        <option value="def_cf">Cheval de Frise</option>
+                    <option value="" id="defselect3">Select a Defense</option>
+                       <option value="def_port" id="portselect3">Portcullis</option>
+                        <option value="def_moat" id="moatselect3">Moat</option>
+                        <option value="def_draw" id="drawselect3">Drawbridge</option>
+                        <option value="def_terr" id="roughselect3">Rough Terrain</option>
+                        <option value="def_rock" id="rockselect3">Rock Wall</option>
+                        <option value="def_ramp" id="rampselect3">Ramparts</option>
+                        <option value="def_sp" id="sallyselect3">Sally Port</option>
+                        <option value="def_cf" id="chevalselect3">Cheval de Frise</option>
                     </select>
                 </div>
             </div>
@@ -179,7 +179,7 @@
                 <button id="no_show" class="btn btn-extra-high btn-warning btn-lg max-width" onclick="changeStage('prematch',finish')">No-show</button>
             </div>
             <div class="col-sm-4" id="autocol">
-                <button class="btn btn-extra-high btn-primary btn-lg max-width" onclick="changeStage('prematch','events');" id="autobutton">autonomous &nbsp;<span class="glyphicon glyphicon-arrow-right"></span></button>
+                <button class="btn btn-extra-high btn-primary btn-lg max-width" onclick="changeStage('prematch','auton');" id="autobutton">autonomous &nbsp;<span class="glyphicon glyphicon-arrow-right"></span></button>
             </div>
         </div>
         <Br>
@@ -212,7 +212,7 @@
     </div>
 
     <!-- AUTONOMOUS EVENT SELECT -->
-    <div class="container-fluid stage" style="display: none;" id="events">
+    <div class="container-fluid stage" style="display: none;" id="auton">
         <div class="row">
             <div class="col-md-6">
                 <h2> <span id = "scoutMode">Autonomous</span><span class="team-number"></span></h2>
@@ -223,13 +223,81 @@
                 <h3>Enemy Side</h3>
                 <div class="row">
                     <div class="col-xs-8">
-                        <button class="btn btn-extra-high btn-lg btn-lg-text btn-success max-width btn-add-subtract" data-name="LowGoal" selector="location_select">Made Low Goal</button>
+                        <button class="btn btn-extra-high btn-lg btn-lg-text btn-success max-width btn-add-subtract" data-name="LowGoal" selector="location_select_off">Made Low Goal</button>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-xs-8">
-                        <button class="btn btn-extra-high btn-lg btn-lg-text btn-success max-width btn-add-subtract" data-name="HighGoal" selector="location_select">Made High Goal</button>
+                        <button class="btn btn-extra-high btn-lg btn-lg-text btn-success max-width btn-add-subtract" data-name="HighGoal" selector="location_select_off">Made High Goal</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-sm-6">
+                <h3>Inbetween</h3>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <button class="btn btn-extra-high btn-lg btn-lg-text btn-success max-width btn-add-subtract" data-name="Crossing" selector="defense_select">Crossed</button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-8">
+                        <button class="btn btn-extra-high btn-lg btn-lg-text btn-success max-width btn-add-subtract" data-name="PickupBall" selector="location_select">Picked up Ball</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <button class="btn btn-extra-high btn-lg btn-lg-text btn-success max-width btn-add-subtract" data-name="ReachedDefense" selector="defense_select">Reached a Defense</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-sm-6">
+                <h3>Your Side</h3>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <button class="btn btn-extra-high btn-lg btn-lg-text btn-success max-width btn-add-subtract" data-name="BlockedShot" selector="location_select_own">Blocked a Shot</button>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+            <div class="row">
+                <div class="col-sm-4 col-sm-push-4">
+                    <button id = "undo" class="btn btn-extra-high btn-danger btn-lg max-width" >mess ups</button>
+                </div>
+                <div class="col-sm-4 col-sm-push-4">
+                    <button class="btn btn-extra-high btn-primary btn-lg max-width" onclick="changeStage('auton','teleop');"><span id="forwards">teleoperated</span>  &nbsp;<span class="glyphicon glyphicon-arrow-right"></span></button>
+                </div>
+                <div class="col-sm-4 col-sm-pull-8">
+                    <button class="btn btn-extra-high btn-info btn-lg max-width" onclick="changeStage('auton','prematch');"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp; <span id = "back">Prematch</span></button>
+                </div>
+            </div>
+        </div>
+        <br>
+   <!-- TELEOPERATED EVENT SELECT -->
+    <div class="container-fluid stage" style="display: none;" id="teleop">
+        <div class="row">
+            <div class="col-md-6">
+                <h2> <span id = "scoutMode">Teleoperated</span><span class="team-number"></span></h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <h3>Enemy Side</h3>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <button class="btn btn-extra-high btn-lg btn-lg-text btn-success max-width btn-add-subtract" data-name="LowGoal" selector="location_select_off">Made Low Goal</button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-8">
+                        <button class="btn btn-extra-high btn-lg btn-lg-text btn-success max-width btn-add-subtract" data-name="HighGoal" selector="location_select_off">Made High Goal</button>
                     </div>
                 </div>
             </div>
@@ -253,15 +321,11 @@
                 <h3>Your Side</h3>
                 <div class="row">
                     <div class="col-xs-8">
-                        <button class="btn btn-extra-high btn-lg btn-lg-text btn-success max-width btn-add-subtract" data-name="BlockedShot" selector="location_select">Blocked a Shot</button>
+                        <button class="btn btn-extra-high btn-lg btn-lg-text btn-success max-width btn-add-subtract" data-name="BlockedShot" selector="location_select_own">Blocked a Shot</button>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-xs-8">
-                        <button class="btn btn-extra-high btn-lg btn-lg-text btn-success max-width btn-add-subtract" data-name="BlockedCrossing" selector="defense_select">Blocked a crossing</button>
-                    </div>
-                </div>
+                
             </div>
         </div>
         
@@ -270,15 +334,14 @@
                     <button id = "undo" class="btn btn-extra-high btn-danger btn-lg max-width" >mess ups</button>
                 </div>
                 <div class="col-sm-4 col-sm-push-4">
-                    <button class="btn btn-extra-high btn-primary btn-lg max-width" onclick="forwards();"><span id="forwards">teleoperated</span>  &nbsp;<span class="glyphicon glyphicon-arrow-right"></span></button>
+                    <button class="btn btn-extra-high btn-primary btn-lg max-width" onclick="changeStage('teleop', 'postmatch');"><span id="forwards">Finish</span>  &nbsp;<span class="glyphicon glyphicon-arrow-right"></span></button>
                 </div>
                 <div class="col-sm-4 col-sm-pull-8">
-                    <button class="btn btn-extra-high btn-info btn-lg max-width" onclick="backwards();"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp; <span id = "back">Prematch</span></button>
+                    <button class="btn btn-extra-high btn-info btn-lg max-width" onclick="changeStage('teleop','auton');"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp; <span id = "back">Autonomous</span></button>
                 </div>
             </div>
         </div>
         <br>
-   
     
     <!-- LOCATION SELECT -->
     <div class="container-fluid stage location-select" style="display: none;" id="location_select">
@@ -293,13 +356,68 @@
                 width:10px;
                 background-color:lime;
                 position:absolute;"></div>
-                <img src="{% static "frc_scout/img/input_map_2016.png" %}" class="input-location-image" id="input_location_image">
+                <img src="{% static "frc_scout/img/input_map_2016.png" %}" class="input-location-image-full" id="input_location_image">
                 <button class="btn btn-extra-high btn-lg btn-lg-text btn-success max-width btn-add-subtract" onclick="cancelImage()"> Cancel </button>
             </div>
         </div>
         <br>
     </div>
-
+    
+    
+    <div class="container-fluid stage location-select" style="display: none;" id="location_select_off">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Teleoperated Event Location<span class="team-number"></span></h2>
+            </div>
+        </div>
+        <div class="row">
+            <div>
+                <div id = "displayDot" style="height:10px;
+                width:10px;
+                background-color:lime;
+                position:absolute;"></div>
+                <img src="{% static "frc_scout/img/input_map_2016_half_enemy.png" %}" offset=0.66 class="input-location-image" id="input_location_image">
+                <button class="btn btn-extra-high btn-lg btn-lg-text btn-success max-width btn-add-subtract" onclick="cancelImage()"> Cancel </button>
+            </div>
+        </div>
+        <br>
+    </div>
+    <div class="container-fluid stage location-select" style="display: none;" id="location_select_neu">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Teleoperated Event Location<span class="team-number"></span></h2>
+            </div>
+        </div>
+        <div class="row">
+            <div>
+                <div id = "displayDot" style="height:10px;
+                width:10px;
+                background-color:lime;
+                position:absolute;"></div>
+                <img src="{% static "frc_scout/img/input_map_2016_half_neutral.png" %}" offset=0.33 class="input-location-image" id="input_location_image">
+                <button class="btn btn-extra-high btn-lg btn-lg-text btn-success max-width btn-add-subtract" onclick="cancelImage()"> Cancel </button>
+            </div>
+        </div>
+        <br>
+    </div>
+    <div class="container-fluid stage location-select" style="display: none;" id="location_select_own">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Teleoperated Event Location<span class="team-number"></span></h2>
+            </div>
+        </div>
+        <div class="row">
+            <div>
+                <div id = "displayDot" style="height:10px;
+                width:10px;
+                background-color:lime;
+                position:absolute;"></div>
+                <img src="{% static "frc_scout/img/input_map_2016_half_friendly.png" %}" offset=0 class="input-location-image" id="input_location_image">
+                <button class="btn btn-extra-high btn-lg btn-lg-text btn-success max-width btn-add-subtract" onclick="cancelImage()"> Cancel </button>
+            </div>
+        </div>
+        <br>
+    </div>
     <!-- DEFENSE SELECT -->
     <div class="container-fluid stage" id="defense_select" style="display:none;">
         <div class="row">

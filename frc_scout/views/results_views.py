@@ -78,6 +78,8 @@ def view_team_match_data(request):
             matches = matches.filter(**params.get("filter"))
         if params.get("order"):
             matches = matches.order_by(*params.get("order"))
+        if params.get("exclude"):
+            matches = matches.exclude(*params.get("exclude"))
         if params.get("columns"):
             results = [x for x in matches.values(*params.get("columns"))]
         else:
@@ -99,6 +101,8 @@ def view_event_data(request):
             events = events.filter(**params.get("filter"))
         if params.get("order"):
             events = events.order_by(*params.get("order"))
+        if params.get("exclude"):
+            matches = matches.exclude(*params.get("exclude"))
         if params.get("columns"):
             results = [x for x in matches.values(*params.get("columns"))]
         else:
@@ -120,6 +124,8 @@ def view_team_event_data(request):
             events = events.filter(**params.get("filter"))
         if params.get("order"):
             events = events.order_by(*params.get("order"))
+        if params.get("exclude"):
+            matches = matches.exclude(*params.get("exclude"))
         if params.get("columns"):
             results = [x for x in events.values(*params.get("columns"))]
         else:
@@ -141,6 +147,12 @@ def view_pit_data(request):
             pit = pit.filter(scout__userprofile__team__team_number=request.user.userprofile.team.team_number)
         if params.get("this_location"):
             pit = pit.filter(location=request.session.get('location_id'))
+        if params.get("exclude"):
+            matches = matches.exclude(*params.get("exclude"))
+        if params.get("filter"):
+            matches = matches.filter(**params.get("filter"))
+        if params.get("order"):
+            matches = matches.order_by(**params.get("order"))
         if params.get("columns"):
             results = [x for x in pit.values(params.get("columns"))]
         else:

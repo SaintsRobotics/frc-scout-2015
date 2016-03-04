@@ -86,12 +86,6 @@ class Match(models.Model):
     # Autonomous
     auto_start_x = models.DecimalField(default=0, max_digits=20, decimal_places=16)
     auto_start_y = models.DecimalField(default=0, max_digits=20, decimal_places=16)
-    
-    #averageable stats
-    high_goals = models.IntegerField(max_length=3, default=0)
-    low_goals = models.IntegerField(max_length=3, default=0)
-    blocks = models.IntegerField(max_length=3, default=0)
-    crosses = models.IntegerField(max_length=3, default=0)
 
     def __str__(self):
         return str("Team: %i | Match: %i | Location: %s" % (self.team_number, self.match_number, self.location.name))
@@ -108,18 +102,14 @@ class Event(models.Model):
         (2,"Crossing"),
         (3,"PickupBall"),
         (4,"BlockedShot"),
-        (5,"BlockedCrossing"),
+        (5,"ReachedDefense"),
         (6,"GameEnd")
         )
     #milliseconds since match start as time
     time = models.IntegerField(max_length=8)
-    endTime = models.FloatField(null=True)
     evType = models.IntegerField(max_length=1,
                                 choices=eventTypes,
                                 default=0)
-    nextEvType = models.IntegerField(max_length=1,
-                                choices=eventTypes,
-                                default=6)
     x = models.FloatField(null=True)
     y = models.FloatField(null=True)
     isAuton = models.BooleanField(default=False)

@@ -40,7 +40,7 @@
     .button-state-text {
         margin-top: 10px;
         font-size: 50px;
-    }
+    
 }
 
 @media (max-width: 768px) {
@@ -144,4 +144,14 @@ body {
         margin-right: 0px;
     }
 
+}
+/*IN-LINE STYLES TRANSFER (ft. Drew). Change these if you want */ 
+#matchnum, #teamnum{padding-top:10px; font-weight: bold;}
+#redalliance, #bluealliance{width: 50%;} /* These labels existed before so they might have other styles */
+#enemydeflabel{padding-top: 10px; font-weight: bold;}
+#select_team_defenses_1, #select_team_defenses_2{padding-top: 10px;}  /* This label existed before so it might have anothe style */
+#deflabel2,#deflabel1, #deflabel3{padding-top: 10px; font-weight: bold;}
+
+
+    
 }

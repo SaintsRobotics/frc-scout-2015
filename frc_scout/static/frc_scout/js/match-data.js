@@ -1,17 +1,33 @@
 /*global h337*/
 /*global Springy*/
-var config = {
-  container: document.getElementById('heatmap_container'),
-  radius: 200,
-  maxOpacity: .5,
-  minOpacity: 0,
-  blur: .75
-};
+
 var can, ctx;
+var heatmap;
 $(function(){
     can = document.getElementById('eventMap');
     ctx = can.getContext('2d');
     $("#tree").springy({graph:graph})
+    var bleh = $("#heatmap_image");
+    var ape = $("<div></div>").
+    offset({
+        top:bleh.offset().top,
+        left:bleh.offset().left
+    }).
+    width(bleh.width()).
+    height(bleh.height()).
+    prop("id","ape").
+    css("z-index", "100").
+    appendTo("body");
+    var config = {
+        container: document.getElementById('ape'),
+        radius: 40,
+        maxOpacity: .5,
+        minOpacity: 0,
+        blur: .75
+    };
+    heatmap = h337.create(config);
+    ape.css("position","absolute");
+    
 });
 function clear(){
     ctx.clearRect (0, 0, can.width, can.height);
@@ -36,7 +52,7 @@ var events = [
 ];
 
 // create heatmap with configuration
-var heatmap = h337.create(config);
+
 function drawEventMap(data){
     for (var i = 0; i < data.length-1; i++){
         var pos = toPix(data[i],can);
@@ -58,20 +74,21 @@ function drawMatchMap(match_id){
 
 function heatmapMap(data){
     heatmap.setData({min:0,max:1,data:[]});
+    
     for(var point of data){
-        heatmap.addData(toPixels(point, "#heatmap_image"));
+        var image = $("#heatmap_image");
+        heatmap.addData(toPixels(point, image));
     }
 }
-function toPix(obj,img){
-  var image = $(img);
+function toPix(obj,image){
     var xPosition = obj.x * image.width();
     var yPosition = obj.y * image.height();
     return {x:xPosition,y:yPosition};
 }
 function toPixels(obj, img){
     var image = $(img);
-    var xPosition = image.offset().left + obj.x * image.width();
-    var yPosition = image.offset().top + obj.y * image.height();
+    var xPosition = obj.x * image.width();
+    var yPosition = obj.y * image.height();
     return {x:xPosition,y:yPosition,value:1};
 }
 
@@ -98,7 +115,7 @@ function postRequest(url, data, callback){
 }
 function getEventDataForMatch(options, callback){
     $(".team-number").text("" + options.team);
-    postMessage('/dev/match_event_data/',options,callback);
+    postRequest('/dev/match_event_data/',options,callback);
 }
 function displayHeatmap(team,evType){
     getEventDataForTeam({
@@ -107,15 +124,14 @@ function displayHeatmap(team,evType){
             evType:evType
         },
         columns:["x","y"]
-    }, map);
+    }, heatmapMap);
 }
 function getCounts(team, callback){
     postRequest("/results/counts/", {
         team:team
-        
     }, callback);
 }
-function getEventsSorted(team){
+function createEventTree(team){
     getEventDataForTeam({
         team:team,
         order:["match_id","time"],
@@ -150,4 +166,55 @@ function createTree(data){
             lastElement = newEvent;
         }
     }
+}
+var defenses = ["Portcullis","Moat","Drawbridge","Rough Terrain","Rock Wall","Ramparts","Sally Port","Cheval de Frise"];
+function prepareData(data){
+    var bleh = [];
+    for(var k in data){
+        bleh.push([parseInt(k)]);
+    }
+    return bleh;
+}
+function createDefenseGraph(data){
+    $('#defense_chart').height(400).tufteBar({
+    data: prepareData(data),
+
+    barWidth: 0.8, 
+
+    // The label on top of the bar - can contain HTML
+    // formatNumber inserts commas as thousands separators in a number
+    barLabel:  function(index) { 
+      return $.tufteBar.formatNumber(this[0])
+    }, 
+
+    // The label on the x-axis - can contain HTML
+    axisLabel: function(index) { return defenses[index]}, 
+
+    // The color of the bar
+    color:     function(index) { 
+      return ['#E57536', '#82293B'][index % 2] 
+    },
+
+    // Stacked graphs also pass a stackedIndex parameter
+    color:     function(index, stackedIndex) { 
+      return ['#E57536', '#82293B'][stackedIndex % 2] 
+    },
+
+    // Alternatively, you can just override the default colors and keep
+    // the built in color functions
+    colors: ['#82293B', '#E57536', '#FFBE33'],
+  });
+}
+var currentTeam
+$("#teamSelectButton").click(function(){
+    currentTeam= parseInt($("#teamSelector").val());
+    createGraph(currentTeam);
+    createEventTree(currentTeam);
+});
+$("#EventSelect").on("change",function(thing){
+    var ayy = $(this).val();
+    displayHeatmap(currentTeam,ayy);
+});
+function createGraph(team){
+    getCounts(team,createDefenseGraph);
 }

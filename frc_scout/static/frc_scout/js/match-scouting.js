@@ -13,11 +13,14 @@ var matchProperties = {
     currentStage:""
 };
 var isAuton=true;
-function imageCallback(x, y){
-    matchdata.events[matchdata.events.length-1].x = x;
+function imageCallback(x, y, offset){
     matchdata.events[matchdata.events.length-1].y = x;
-    $(".location-select").hide();
-    $("#events").show();
+    matchdata.events[matchdata.events.length-1].x = y/3 + offset;
+    $(".stage").hide();
+    if(matchdata.events[matchdata.events.length-1].isAuton)
+        $("#auton").show();
+    else
+        $("#teleop").show();
 }
 var xPosition, yPosition;
 /*
@@ -79,7 +82,21 @@ $(".input-location-image").click(function(event){
         top:image.offset().top + yPosition * image.height()
     });
     if(confirm("Put it here?"))
-        imageCallback(xPosition,yPosition);
+        imageCallback(xPosition,yPosition,image.prop("offSet"));
+    $("#displayDot").hide();
+});
+$(".input-location-image-full").click(function(event){
+    var image = $(this);
+
+    var xPosition = (event.pageX - image.offset().left) / image.width();
+    var yPosition = (event.pageY - image.offset().top) / image.height();
+    $("#displayDot").show();
+    $("#displayDot").offset({
+        left:image.offset().left + xPosition * image.width(),
+        top:image.offset().top + yPosition * image.height()
+    });
+    if(confirm("Put it here?"))
+        imageCallback(yPosition,xPosition * 3,0);
     $("#displayDot").hide();
 });
 
@@ -174,16 +191,19 @@ var events = {
     Crossing:2,
     PickupBall:3,
     BlockedShot:4,
-    BlockedCrossing:5
+    ReachedDefense:5
 };
 $(".btn-add-subtract").click(function(event){
     var data = $(this);
     var eventData = {
         evType:events[data.prop("data-name")],
-        isAuton:$("#autonomous").is(":visible"),
+        isAuton:$("#auton").is(":visible"),
         time:Date.now()-matchProperties.startTime
     };
-    $("#events").hide();
+    if(eventData.isAuton)
+        $("#auton").hide();
+    else
+        $("#teleop").hide();
     $("#" + data.attr("selector")).show();
     matchdata.events.push(eventData);
 });
@@ -196,7 +216,10 @@ $(".btn-defense").click(function(event){
     matchdata.events[matchdata.events.length-1].y = defenses.indexOf(obj.text());
     matchdata.events[matchdata.events.length-1].x = parseInt(getLast(obj));
     $("#defense_select").hide();
-    $("#events").show();
+    if(matchdata.events[matchdata.events.length-1].isAuton)
+        $("#auton").show();
+    else
+        $("#teleop").show();
 });
 
 function getLast(obj){
@@ -220,14 +243,25 @@ function changeStage(fromStage, toStage){
             matchdata.team_number =  parseInt($("#select_team_number_select").val());
         matchdata.match_number = parseInt($("#match_number").val());
         matchProperties.startTime = Date.now();
+        window.onbeforeunload = function() {
+            return "Are you sure you want to leave the page? If your internet connection is spotty, you may be unable to scout again.";
+        }
     }else if(fromStage=="postmatch"){
         var data = JSON.parse(localStorage.getItem("matches"));
-        data.pop()
+        matchdata = data.pop();
         localStorage.setItem("matches", JSON.stringify(data));
+        window.onbeforeunload = function() {
+            return "Are you sure you want to leave the page? If your internet connection is spotty, you may be unable to scout again.";
+        }
     }else if(toStage=="postmatch"){
         var data = JSON.parse(localStorage.getItem("matches"));
-        data.push(matchdata)
+        if(data)
+            data.push(matchdata)
+        else
+            data = [matchdata]
         localStorage.setItem("matches", JSON.stringify(data));
+        matchdata = {};
+        window.onbeforeunload = null;
     }
     discardAndChangeStage(fromStage,toStage);
 }
@@ -270,14 +304,16 @@ function cancelImage(){
 function saveData(){
     if(localStorage.getItem("matches") == undefined){
         localStorage.setItem("matches", JSON.stringify([matches]));
+        return;
     }
     var matches = JSON.parse(localStorage.getItem("matches"));
     matches.push(matchdata);
     localStorage.setItem("matches", JSON.stringify(matches));
 }
-
+var submitting = false;
 function attemptMatchSubmission(){
-    if(localStorage.getItem("matches")){
+    if(localStorage.getItem("matches") && !submitting){
+        submitting = true;
         var item = $.ajax({
             url: '/scouting/match/submit/',
             method: "POST",
@@ -298,18 +334,10 @@ function attemptMatchSubmission(){
             },
             success: function(){
                 localStorage.setItem("matches", null);
+                
+                alert("You did it!");
+                submitting = false;
             }
         });
-        console.log(item);
     }
-}
-
-
-
-
-/*
- Check to make sure that the person didnt unintentionally leave
-*/
-window.onbeforeunload = function() {
-    return "Are you sure you want to leave the page? If your internet connection is spotty, you may be unable to scout again.";
 }

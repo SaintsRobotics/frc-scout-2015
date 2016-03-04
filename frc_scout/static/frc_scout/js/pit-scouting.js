@@ -109,8 +109,9 @@ function getFormData() {
             }
 
             function postToImgur() {
+                
                 if($("#robot_image")[0].files[0] == null){
-                    
+                    postFormData(null);
                 }
                 var formData = new FormData();
                 formData.append("image", $("#robot_image")[0].files[0]);
@@ -163,7 +164,12 @@ function getFormData() {
                     },
                     error:function(response){
                         console.log(response);
+                        if(localStorage.getItem("pitscout")){
+                            localStorage.setItem("pitscout", JSON.stringify(JSON.parse(localStorage.getItem("pitscout")).push({formData:formData,imageData:imageData})));
+                        }else{
+                            localStorage.setItem("pitscout", JSON.stringify([{formData:formData,imageData:imageData}]));
+                        }
                     }
-                })
+                });
 
             }

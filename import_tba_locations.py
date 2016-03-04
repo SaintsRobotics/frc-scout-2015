@@ -12,9 +12,9 @@ django.setup()
 
 from frc_scout.models import Location
 
-APP_ID = "frc4030:frcscout.com:v1"
+APP_ID = "frc1899:frcscout.com:v2"
 
-TBA_URL = "http://www.thebluealliance.com/api/v2/events/2015?X-TBA-App-Id=" + APP_ID
+TBA_URL = "http://www.thebluealliance.com/api/v2/events/2016?X-TBA-App-Id=" + APP_ID
 
 try:
     tba_locations = requests.get(TBA_URL).json()
