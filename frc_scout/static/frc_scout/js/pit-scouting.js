@@ -143,17 +143,20 @@ function getFormData() {
 
             function postFormData(imageData) {
                 var formData = getFormData();
-
+                var data = {
+                        csrfmiddlewaretoken: $.cookie('csrftoken'),
+                        data: JSON.stringify(formData),
+                    }
+                if(imageData){
+                    data.image_data= JSON.stringify(imageData);
+                }
                 $.ajax({
                     url: '/scouting/pit/submit/',
                     type: "POST",
-                    data: {
-                        csrfmiddlewaretoken: $.cookie('csrftoken'),
-                        data: JSON.stringify(formData),
-                        image_data: JSON.stringify(imageData)
-                    },
+                    data: data,
                     success: function() {
                         $("#submit_progress_bar").css('width', '100%');
+                        alert("You're done!");
                         window.setTimeout(function() {
                             $("#submit_button").button('reset');
                             clearForm();

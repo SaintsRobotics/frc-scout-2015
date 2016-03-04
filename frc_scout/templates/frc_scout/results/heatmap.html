@@ -6,6 +6,9 @@
 {% load compress %}
 
 {% block extra_css %}
+    {% compress css %}
+        <link rel="stylesheet" type="text/css" href="{% static "frc_scout/css/bootstrap-switch.min.css" %}">
+    {% endcompress %}
     <style>
         #eventMap{
             background-image:url('{% static "frc_scout/img/input_map_2016.png" %}');
@@ -13,16 +16,11 @@
         #data-table {
 	        display: none;
         }
-        .axis-label .bar-label{
-            color:black;
+        .label{
+            color:#000000;
+            font-size:120%;
         }
-.bar:hover span {
-	opacity: 1;
-}
     </style>
-    {% compress css %}
-        <link rel="stylesheet" type="text/css" href="{% static "frc_scout/css/bootstrap-switch.min.css" %}">
-    {% endcompress %}
 {% endblock %}
 
 {% block main_content %}
@@ -35,10 +33,23 @@
                 <h2>Event Heatmap<span class="team-number"></span></h2>
             </div>
         </div>
+        <div class="row">
+            <div class = "col-md-12">
+                <input type="number" id = "teamSelector">
+                <button id = "teamSelectButton">Go!</button>
+            </div>
+        </div>
         <div class="row" >
             <div class ="col-md-12">
                 <div id = "heatmap_container">
                     <img src="{% static "frc_scout/img/input_map_2016.png" %}" class="input-location-image" id="heatmap_image">
+                    <select id="EventSelect">
+                        <option val = -1> select something</option>
+                        <option val = 0> Low Goals</option>
+                        <option val = 1> High Goals</option>
+                        <option val = 3> Ball Pickup</option>
+                        <option val = 4> Blocked Shot</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -53,8 +64,10 @@
         </div>
         
         <div class="row">
-            <div class = "col-md-6" id = "event_map_container">
-                <canvas id = "eventMap" width="1122" height= "639"></canvas>
+            <div class = "col-md-6" id = "pit">
+                <br>
+                <br>
+                <br>
             </div>
         </div>
         <br>

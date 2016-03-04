@@ -32,7 +32,7 @@ class UserProfile(models.Model):
 
     team = models.ForeignKey(Team, null=True)
     team_manager = models.BooleanField(default=False)
-    approved = models.BooleanField(default=False)
+    approved = models.BooleanField(default=True)
 
     message = models.TextField(null=True, blank=True)
 

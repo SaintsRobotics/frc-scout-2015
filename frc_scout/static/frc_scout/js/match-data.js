@@ -4,8 +4,6 @@
 var can, ctx;
 var heatmap;
 $(function(){
-    can = document.getElementById('eventMap');
-    ctx = can.getContext('2d');
     $("#tree").springy({graph:graph})
     var bleh = $("#heatmap_image");
     var ape = $("<div></div>").
@@ -109,7 +107,8 @@ function postRequest(url, data, callback){
             data: JSON.stringify(data)
         },
         success:function(data,blah,bleh){
-            callback(data);
+            if(data)
+                callback(data);
         }
     });
 }
@@ -170,7 +169,7 @@ function createTree(data){
 var defenses = ["Portcullis","Moat","Drawbridge","Rough Terrain","Rock Wall","Ramparts","Sally Port","Cheval de Frise"];
 function prepareData(data){
     var bleh = [];
-    for(var k in data){
+    for(var k of data){
         bleh.push([parseInt(k)]);
     }
     return bleh;
@@ -210,11 +209,23 @@ $("#teamSelectButton").click(function(){
     currentTeam= parseInt($("#teamSelector").val());
     createGraph(currentTeam);
     createEventTree(currentTeam);
+    displayPitData(currentTeam);
+    $("#EventSelect").show();
 });
 $("#EventSelect").on("change",function(thing){
-    var ayy = $(this).val();
+    var ayy = parseInt($(this).val());
+    if(ayy==-1) return;
     displayHeatmap(currentTeam,ayy);
 });
 function createGraph(team){
     getCounts(team,createDefenseGraph);
+}
+function getPitData(team){
+    postRequest("/dev/team_pit/",{
+        team:team,
+        this_location:true
+    }, displayPitData);
+}
+function displayPitData(data){
+    $("#pit").text(JSON.stringify(data[0],null,2));
 }

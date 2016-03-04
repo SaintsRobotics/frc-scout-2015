@@ -16,7 +16,7 @@ def teams_at_event(request):
     except Location.DoesNotExist:
         return HttpResponse("Your session does not have a location associated with it.", status=400)
 
-    tba_url = str('http://www.thebluealliance.com/api/v2/event/2015%s/teams?X-TBA-App-Id=frc4030:frcscout.com:v1' % location.tba_event_code)
+    tba_url = str('http://www.thebluealliance.com/api/v2/event/2016%s/teams?X-TBA-App-Id=frc4030:frcscout.com:v1' % location.tba_event_code)
 
     try:
         r = requests.get(tba_url)

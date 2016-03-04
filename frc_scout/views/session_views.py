@@ -154,7 +154,7 @@ def create_account(request):
 
         user.userprofile.save()
 
-        if not created and local_settings.SERVER_EMAIL is not None:
+        """if not created and local_settings.SERVER_EMAIL is not None:
             team_managers = \
                 User.objects.filter(userprofile__team__team_number=team_number, userprofile__team_manager=True).values('email')
 
@@ -180,7 +180,7 @@ def create_account(request):
             messages.success(request, "Account created successfully, you may now login.")
         else:
             messages.info(request,
-                          "Your account has been created, but must be approved by a team manager before you may login.")
+                          "Your account has been created, but must be approved by a team manager before you may login.")"""
         return HttpResponseRedirect(reverse("frc_scout:login"))
 
     return render(request, 'frc_scout/create_account.html')
